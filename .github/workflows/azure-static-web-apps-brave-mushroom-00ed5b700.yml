@@ -53,7 +53,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          app_location: 'build'  # Ensure this points to your build directory containing index.html
+          app_location: 'public'  # Ensure this points to your build directory containing index.html
           deployment_action: 'upload'  # Specify a valid action
           #api_location: 'api'  # If you have an API directory
           # output_location: ''  Optional, only if you need a specific output location
