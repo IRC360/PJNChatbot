@@ -3,7 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main  # Adjust this to your default branch
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -15,41 +15,49 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v3  # Updated to the latest version
+      - uses: actions/checkout@v3
         name: Checkout code
 
       - name: Remove .extraheader
         run: git config --unset-all http.https://github.com/.extraheader
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Updated to the latest version
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'  # Updated Node.js version to 20.x
-      
+          node-version: '20.x'
+
+      - name: Print Node.js version
+        run: node -v
+
+      - name: Print npm version
+        run: npm -v
+
+      - name: List files in the working directory
+        run: ls -la
+
       - name: Install dependencies
         run: npm install
-      
+
       - name: Build React and Vite
-        run: npm run build  # Ensure your package.json has a 'build' script
+        run: npm run build
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'  # Adjust according to your Laravel version
+          php-version: '8.1'
       
       - name: Install Composer dependencies
         run: composer install --no-dev --optimize-autoloader
-      
+
       - name: Copy Files to the Build Directory
         run: |
           mkdir -p build
           cp -r public/* build/
           cp -r storage/* build/storage/
-          # Add other necessary files or folders
 
       - name: Deploy to Azure
         uses: Azure/static-web-apps-deploy@v1
         with:
-          app_location: '/build'  # Adjust based on your build output folder
-          api_location: 'api'  # If using API, adjust this location as needed
-          output_location: 'dist'  # Where your build files are stored (e.g., dist for Vite)
+          app_location: '/build'
+          api_location: 'api'
+          output_location: 'dist'
