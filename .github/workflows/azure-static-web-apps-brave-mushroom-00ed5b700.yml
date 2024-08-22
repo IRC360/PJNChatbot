@@ -15,12 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v2
-      
+      - uses: actions/checkout@v3  # Updated to the latest version
+        name: Checkout code
+
+      - name: Remove .extraheader
+        run: git config --unset-all http.https://github.com/.extraheader
+
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3  # Updated to the latest version
         with:
-          node-version: '18.x'
+          node-version: '20.x'  # Updated Node.js version to 20.x
       
       - name: Install dependencies
         run: npm install
@@ -49,4 +53,3 @@ jobs:
           app_location: '/build'  # Adjust based on your build output folder
           api_location: 'api'  # If using API, adjust this location as needed
           output_location: 'dist'  # Where your build files are stored (e.g., dist for Vite)
-
