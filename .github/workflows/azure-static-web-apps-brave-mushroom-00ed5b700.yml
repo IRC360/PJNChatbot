@@ -18,8 +18,11 @@ jobs:
       - uses: actions/checkout@v3
         name: Checkout code
 
-      - name: Remove .extraheader
-        run: git config --unset-all http.https://github.com/.extraheader
+      - name: Check and Remove .extraheader
+        run: |
+          if git config --get-all http.https://github.com/.extraheader > /dev/null 2>&1; then
+            git config --unset-all http.https://github.com/.extraheader
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
