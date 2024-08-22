@@ -45,7 +45,7 @@ jobs:
 
       - name: Copy Files to the Build Directory
         run: |
-          mkdir -p build
+          mkdir -p build/storage  # Create the storage directory
           cp -r public/* build/
           cp -r storage/* build/storage/
 
